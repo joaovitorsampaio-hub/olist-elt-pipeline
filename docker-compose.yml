@@ -1,0 +1,131 @@
+version: "3.9"
+
+services:
+
+  # --- BANCO DE DADOS (Origem - MySQL) ---
+  mysql:
+    image: mysql:8
+    container_name: mysql_source
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: source_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # --- DATA WAREHOUSE ---
+  postgres:
+    image: postgres:14
+    container_name: postgres_dw
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: dw
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- AIRFLOW ---
+  airflow-init:
+    build: .
+    container_name: airflow_init
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
+    command: >
+      bash -c "airflow db init &&
+               airflow users create --username admin --firstname Airflow --lastname User --role Admin --email admin@example.com --password admin"
+
+  airflow-webserver:
+    build: .
+    container_name: airflow_webserver
+    restart: always
+    depends_on:
+      - airflow-init
+      - postgres
+      - mysql
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: "8wUKw1W066HGxx45pNGSf5aWhPnCmBWJMn-FYZGINC0="
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./volumes/airflow/dags:/opt/airflow/dags
+      - ./volumes/airflow/logs:/opt/airflow/logs
+      - ./volumes/airflow/plugins:/opt/airflow/plugins
+      - ./jobs:/opt/airflow/jobs
+    command: airflow webserver
+
+  airflow-scheduler:
+    build: .
+    container_name: airflow_scheduler
+    restart: always
+    depends_on:
+      - airflow-init
+      - postgres
+      - mysql
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: "8wUKw1W066HGxx45pNGSf5aWhPnCmBWJMn-FYZGINC0="
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    volumes:
+      - ./volumes/airflow/dags:/opt/airflow/dags
+      - ./volumes/airflow/logs:/opt/airflow/logs
+      - ./volumes/airflow/plugins:/opt/airflow/plugins
+      - ./jobs:/opt/airflow/jobs
+    command: airflow scheduler
+
+  # --- STORAGE (MinIO) ---
+  minio:
+    image: minio/minio:latest
+    container_name: minio_storage
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin12345
+    volumes:
+      - ./volumes/minio:/data
+    command: server /data --console-address ":9001"
+
+  # --- ADMINER  ---
+  adminer:
+    image: adminer:latest
+    container_name: adminer_ui
+    restart: always
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql
+      - postgres
+
+  # --- NOTEBOOK (Jupyter Python Puro) ---
+  data-notebook:
+    build: . 
+    container_name: data_notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./volumes/notebooks:/home/airflow/work
+      - ./jobs:/opt/airflow/jobs
+    command: bash -c "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='admin'"

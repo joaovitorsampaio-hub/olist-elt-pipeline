@@ -1,0 +1,11 @@
+
+psycopg2-binary
+apache-airflow-providers-postgres
+apache-airflow-providers-mysql
+pandas
+numpy
+boto3
+s3fs
+mysql-connector-python
+sqlalchemy
+jupyter

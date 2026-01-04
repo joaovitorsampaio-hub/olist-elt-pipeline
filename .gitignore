@@ -1,0 +1,19 @@
+# volumes do docker (dados locais)
+volumes/
+
+# dados brutos
+data_kaggle/
+
+# notebooks gerados
+*.ipynb_checkpoints
+
+# variáveis sensíveis
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# airflow logs
+airflow/logs/

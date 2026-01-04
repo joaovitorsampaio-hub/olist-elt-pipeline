@@ -1,0 +1,10 @@
+# Ignora as pastas de dados pesadas e protegidas
+volumes/
+mysql/
+postgres/
+spark/
+data_kaggle/
+
+# Ignora arquivos de configuração do docker
+docker-compose.yml
+.git
