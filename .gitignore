@@ -17,3 +17,6 @@ __pycache__/
 
 # airflow logs
 airflow/logs/
+
+#Ml
+logistic_model_v1.pkl
