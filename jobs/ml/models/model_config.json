@@ -1,0 +1,1 @@
+{"best_threshold": 0.5162652892054522, "features": ["price", "freight_value", "product_weight_g", "volume_cm3", "distancia_km", "densidade_prod", "dia_semana_compra", "risk_route", "risk_category", "handling_time_h"]}

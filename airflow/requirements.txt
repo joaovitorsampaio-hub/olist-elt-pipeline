@@ -9,3 +9,7 @@ s3fs
 mysql-connector-python
 sqlalchemy
 jupyter
+scikit-learn
+xgboost
+google-genai
+joblib
