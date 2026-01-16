@@ -13,7 +13,7 @@ MINIO_SECRET_KEY = "admin12345"
 BUCKET_NAME = "bronze"
 
 
-# String de conexão SQLAlchemy (mysql+mysqlconnector://user:pass@host:port/db)
+# String de conexão SQLAlchemy 
 DB_CONNECTION_STR = "mysql+mysqlconnector://root:root@mysql:3306/source_db"
 
 TABLES = [
@@ -28,7 +28,7 @@ TABLES = [
 ]
 
 def get_minio_client():
-    """Cria cliente S3 (Boto3) configurado para o MinIO"""
+    #Cria cliente S3 (Boto3) configurado para o MinIO
     return boto3.client(
         's3',
         endpoint_url=MINIO_ENDPOINT,
@@ -41,8 +41,8 @@ def ingest_table(table_name):
     print(f" Iniciando ingestão da tabela: {table_name}")
     
     try:
-        # 1. Conexão e Leitura do MySQL (Usando Pandas + SQLAlchemy)
-        # O chunksize evita estourar a memória se a tabela for gigante
+        # 1. Conexão e Leitura do MySQL 
+        # O chunksize 
         print("   Lendo do MySQL...")
         engine = create_engine(DB_CONNECTION_STR)
         
@@ -62,13 +62,12 @@ def ingest_table(table_name):
         print(f" Lido {len(df)} linhas.")
 
         
-        # Adiciona o timestamp de quando a extração ocorreu 
+        # Adiciona o timestamp 
         df['ingestion_date'] = datetime.now()
 
         # 2. Conversão para Parquet em Memória 
         print("   Convertendo para Parquet...")
         out_buffer = BytesIO()
-        # index=False evita salvar o índice numérico do Pandas no arquivo
         df.to_parquet(out_buffer, index=False)
         
         # 3. Upload para o MinIO

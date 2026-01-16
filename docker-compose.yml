@@ -62,7 +62,7 @@ services:
       - mysql
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__FERNET_KEY: "8wUKw1W066HGxx45pNGSf5aWhPnCmBWJMn-FYZGINC0="
+      AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY}
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     ports:
@@ -84,7 +84,7 @@ services:
       - mysql
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      AIRFLOW__CORE__FERNET_KEY: "8wUKw1W066HGxx45pNGSf5aWhPnCmBWJMn-FYZGINC0="
+      AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY}
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:

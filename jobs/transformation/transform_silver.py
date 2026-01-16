@@ -38,7 +38,7 @@ def save_to_minio(df, table_name):
     except Exception as e:
         print(f"Erro ao salvar {table_name}: {e}")
 
-# 1. Consolidação da Geolocalização (Referência Técnica)
+# 1. Consolidação da Geolocalização 
 
 def create_geo_reference():
     """Cria referência com 1 linha por CEP para saneamento de cidades."""

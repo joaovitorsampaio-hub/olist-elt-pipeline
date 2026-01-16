@@ -53,7 +53,7 @@ def run_inference():
     df_cust = pd.read_parquet("s3://silver/olist_customers/olist_customers.parquet", storage_options=STORAGE_OPTIONS)
     df_sell = pd.read_parquet("s3://silver/olist_sellers/olist_sellers.parquet", storage_options=STORAGE_OPTIONS)
 
-    # Merge inicial (pode gerar duplicatas de order_id devido aos itens)
+    # Merge inicial 
     df = df_ongoing.merge(df_items, on='order_id') \
                    .merge(df_prod, on='product_id') \
                    .merge(df_cust[['customer_id', 'geolocation_lat', 'geolocation_lng', 'customer_state']], on='customer_id') \
@@ -80,11 +80,11 @@ def run_inference():
     df['risk_route'] = df['route_key'].map(route_risk).fillna(0.07)
     df['risk_category'] = df['product_category_name'].map(category_risk).fillna(0.07)
 
-    # Predicao
+    # Predição
     X = df[features].fillna(0)
     df['probabilidade_atraso'] = model.predict_proba(X)[:, 1]
     
-    # --- DEDUPLICACAO PARA GARANTIR PK ---
+    # --- DEDUPLICACAO  ---
     # Se um pedido tem 2 itens, pega a maior probabilidade de atraso 
     df_results = df.groupby('order_id').agg({
         'probabilidade_atraso': 'max'
@@ -92,7 +92,7 @@ def run_inference():
     
     df_results['alerta_atraso'] = (df_results['probabilidade_atraso'] >= threshold).astype(int)
 
-    # Exportacao
+    # Exportação
     engine = create_engine(DB_STR)
     try:
         df_results.to_sql('fato_previsoes_logistica', engine, if_exists='replace', index=False)
