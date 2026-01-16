@@ -119,7 +119,7 @@ services:
       - mysql
       - postgres
 
-  # --- NOTEBOOK (Jupyter Python Puro) ---
+  # --- NOTEBOOK ---
   data-notebook:
     build: . 
     container_name: data_notebook
