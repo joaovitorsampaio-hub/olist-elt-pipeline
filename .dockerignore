@@ -1,4 +1,4 @@
-# Ignora as pastas de dados pesadas e protegidas
+# Ignora as pastas de dados 
 volumes/
 mysql/
 postgres/
