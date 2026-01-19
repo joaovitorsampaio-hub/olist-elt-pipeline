@@ -68,7 +68,7 @@ services:
     ports:
       - "8085:8080"
     volumes:
-      - ./volumes/airflow/dags:/opt/airflow/dags
+      - ./dags:/opt/airflow/dags
       - ./volumes/airflow/logs:/opt/airflow/logs
       - ./volumes/airflow/plugins:/opt/airflow/plugins
       - ./jobs:/opt/airflow/jobs
@@ -88,7 +88,7 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:root@postgres_dw:5432/dw
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:
-      - ./volumes/airflow/dags:/opt/airflow/dags
+      - ./dags:/opt/airflow/dags
       - ./volumes/airflow/logs:/opt/airflow/logs
       - ./volumes/airflow/plugins:/opt/airflow/plugins
       - ./jobs:/opt/airflow/jobs
