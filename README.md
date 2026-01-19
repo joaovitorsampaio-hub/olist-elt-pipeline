@@ -71,7 +71,7 @@ O projeto é orquestrado pelo **Apache Airflow** e estruturado nas seguintes cam
 
 ## Machine Learning: Inteligência Logística
 
-O pipeline integra um **script de inferência** que consome dados da camada **Silver** para prever o **risco de atraso** de pedidos ainda em trânsito (`shipped`, `processing`, `invoiced`). Após o treino com lógica realista de handling time e otimização do limiar de decisão, foi definido um threshold ótimo de 0,5163, equilibrando precisão e recall. O modelo alcançou acurácia global de 0,89 e, para a classe crítica (atraso), apresentou recall de 0,39, precision de 0,27 e F1-score de 0,32, demonstrando desempenho consistente como sistema de alerta antecipado, mesmo sob forte desbalanceamento da variável alvo.
+O pipeline integra um **script de inferência** que consome dados da camada **Silver** para prever o **risco de atraso** de pedidos ainda em trânsito (`shipped`, `processing`, `invoiced`). Após o treino com lógica realista de handling time e otimização do limiar de decisão, foi definido um threshold ótimo de **0,5163**, equilibrando precisão e recall. O modelo alcançou acurácia global de **0,89** e, para a classe crítica (atraso), apresentou recall de **0,39**, precision de **0,27** e F1-score de **0,32**, demonstrando desempenho consistente como sistema de alerta antecipado, mesmo sob forte desbalanceamento da variável alvo.
 
 ### Engenharia de Atributos do Modelo
 
