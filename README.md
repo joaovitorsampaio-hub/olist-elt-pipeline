@@ -1,5 +1,5 @@
 # Olist ELT Pipeline: Engenharia de Dados e Predição Logística
-<img width="1536" height="1024" alt="ChatGPT Image 19 de jan  de 2026, 17_40_26" src="https://github.com/user-attachments/assets/3e2ce7af-02a3-4bfb-b297-9eb16377e983" />
+<img width="1536" height="1024" alt="ChatGPT Image 19 de jan  de 2026, 20_18_14" src="https://github.com/user-attachments/assets/3ab206d7-99fd-4d56-a7ef-a1d26ec5206d" />
 
 
 Este projeto apresenta uma **solução completa de Engenharia de Dados** utilizando o dataset público da **Olist**.  
@@ -71,7 +71,7 @@ O projeto é orquestrado pelo **Apache Airflow** e estruturado nas seguintes cam
 
 ## Machine Learning: Inteligência Logística
 
-O pipeline integra um **script de inferência** que consome dados da camada **Silver** para prever o **risco de atraso** de pedidos ainda em trânsito (`shipped`, `processing`, `invoiced`). Após o treino com lógica realista de handling time e otimização do limiar de decisão, foi definido um threshold ótimo de **0,5163**, equilibrando precisão e recall. O modelo alcançou acurácia global de **0,89** e, para a classe crítica (atraso), apresentou recall de **0,39**, precision de **0,27** e F1-score de **0,32**, demonstrando desempenho consistente como sistema de alerta antecipado, mesmo sob forte desbalanceamento da variável alvo.
+O pipeline integra um **script de inferência** que consome dados da camada **Silver** para prever o **risco de atraso** de pedidos ainda em trânsito (`shipped`, `processing`, `invoiced`). O modelo escolhido foi um Random Forest, treinado com ponderação automática para lidar com o desbalanceamento da variável alvo. Após o treino com lógica realista de handling time e otimização do limiar de decisão, foi definido um threshold ótimo de **0,5163**, equilibrando precisão e recall. O modelo alcançou acurácia global de **0,89** e, para a classe crítica (atraso), apresentou recall de **0,39**, precision de **0,27** e F1-score de **0,32**, demonstrando desempenho consistente como sistema de alerta antecipado, mesmo sob forte desbalanceamento da variável alvo.
 
 ### Engenharia de Atributos do Modelo
 
@@ -113,7 +113,7 @@ O dashboard consome as tabelas do **PostgreSQL** e está organizado em **quatro 
 - Identificação de pedidos em risco operacional crítico
 <img width="1532" height="853" alt="Captura de tela 2026-01-19 151027" src="https://github.com/user-attachments/assets/6e2d8685-ee91-43e5-a6c4-c4e4fb0316ee" />
 
-### 3.Drivers de Receita
+### 3. Drivers de Receita
 - Análise de Pareto (% acumulado) para identificação das categorias mais relevantes em faturamento
 - Identificação de categorias estratégicas para crescimento e otimização comercial
 - Cálculo e ranking de Lifetime Value (LTV) por cliente
