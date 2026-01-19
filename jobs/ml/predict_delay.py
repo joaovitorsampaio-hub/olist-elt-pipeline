@@ -66,7 +66,7 @@ def run_inference():
     df['order_approved_at'] = pd.to_datetime(df['order_approved_at'])
     df['order_delivered_carrier_date'] = pd.to_datetime(df['order_delivered_carrier_date'])
     
-    agora = pd.Timestamp.now()
+    agora = df_orders['order_purchase_timestamp'].max() + pd.Timedelta(days=1)
     df['handling_time_h'] = (df['order_delivered_carrier_date'] - df['order_approved_at']).dt.total_seconds() / 3600
     mask_pending = df['order_delivered_carrier_date'].isna()
     df.loc[mask_pending, 'handling_time_h'] = (agora - df['order_approved_at']).dt.total_seconds() / 3600
