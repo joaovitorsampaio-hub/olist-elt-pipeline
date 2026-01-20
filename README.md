@@ -1,5 +1,4 @@
 # Olist ELT Pipeline: Engenharia de Dados e Predição Logística
-<img width="1536" height="1024" alt="ChatGPT Image 19 de jan  de 2026, 20_18_14" src="https://github.com/user-attachments/assets/3ab206d7-99fd-4d56-a7ef-a1d26ec5206d" />
 
 
 Este projeto apresenta uma **solução completa de Engenharia de Dados** utilizando o dataset público da **Olist**.  
