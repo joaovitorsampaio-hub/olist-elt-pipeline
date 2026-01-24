@@ -1,5 +1,6 @@
 # Olist ELT Pipeline: Engenharia de Dados e Predição Logística
-
+🇧🇷 Este README está em português.  
+🇺🇸 Read this project description in English: [README_EN.md](README_EN.md)
 
 Este projeto apresenta uma **solução completa de Engenharia de Dados** utilizando o dataset público da **Olist**.  
 O pipeline implementa o processo **ELT (Extract, Load, Transform)** seguindo a **Arquitetura de Medalhões**, culminando em um **modelo de Machine Learning** capaz de prever atrasos em pedidos quase em tempo real.
