@@ -7,6 +7,9 @@ O pipeline implementa o processo **ELT (Extract, Load, Transform)** seguindo a *
 
 ---
 
+<img width="784" height="443" alt="Diagrama sem nome drawio" src="https://github.com/user-attachments/assets/46b2fa7c-153c-44ef-be10-ce37bedc54f6" />
+
+
 ## Arquitetura e Fluxo de Dados
 
 O projeto é orquestrado pelo **Apache Airflow** e estruturado nas seguintes camadas:
